@@ -11,6 +11,7 @@ public class TicTacToe extends CanvasWindow implements MouseListener, MouseMotio
 
     public static final int CANVAS_WIDTH = 800;
     public static final int CANVAS_HEIGHT = 900;
+    public static final int MARGIN = CANVAS_WIDTH / 15;
 
     private Rectangle button;
     private GraphicsText text;
