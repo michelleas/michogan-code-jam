@@ -14,9 +14,8 @@ public class TicTacToe extends CanvasWindow implements MouseListener, MouseMotio
 
     private Rectangle button;
     private GraphicsText text;
-    private Square square;
+    private Square[][] squares;
 
-    private int numX, numO;
     private char mark;
     private char[] turn = {'X', 'O'};
     private int turnCounter = 0;
@@ -31,16 +30,12 @@ public class TicTacToe extends CanvasWindow implements MouseListener, MouseMotio
     }
 
     private void newGame(){
-        for(int i = 0; i < 9; i++) {
-            if (turn[i] == 'X') {
-                mark = 'X';
-                numX++;
-            }
-            if (turn[i] == 'O') {
-                mark = 'O';
-                numO++;
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                squares[i][j] = new Square(Square.SIDE_LENGTH, Square.SIDE_LENGTH);
             }
         }
+        mark = changeTurn();
         newGameButton();
     }
 
@@ -48,11 +43,11 @@ public class TicTacToe extends CanvasWindow implements MouseListener, MouseMotio
         return turn[turnCounter % turn.length];
     }
 
-    public boolean checkCat(){
+    private boolean checkCat(){
         return numX == numO;
     }
 
-    public char checkWin(){
+    private char checkWin(){
         if(!checkCat()) {
             if (numX > numO)
                 return 'X';
@@ -62,7 +57,7 @@ public class TicTacToe extends CanvasWindow implements MouseListener, MouseMotio
         return 'C';
     }
 
-    public void newGameButton(){
+    private void newGameButton(){
         button = new Rectangle(710, 10, 80, 30);
         button.setFillColor(Color.cyan);
         button.setFilled(true);
@@ -82,10 +77,10 @@ public class TicTacToe extends CanvasWindow implements MouseListener, MouseMotio
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if(e.getX() <= square.getX())
-            square.highlight(true);
-        if(square.canMark())
-            square.makeMark(mark);
+//        if(e.getX() <= square.getX())
+//            square.highlight(true);
+//        if(square.canMark())
+//            square.makeMark(mark);
     }
 
     @Override
