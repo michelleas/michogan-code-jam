@@ -15,7 +15,7 @@ public class TicTacToe extends CanvasWindow implements MouseListener, MouseMotio
 
     private Rectangle button;
     private GraphicsText text;
-    private Square[][] squares;
+    private Square[][] squares = new Square[3][3];
 
     private char mark;
     private char[] turn = {'X', 'O'};
@@ -59,12 +59,25 @@ public class TicTacToe extends CanvasWindow implements MouseListener, MouseMotio
             if (checkColumn(i) != Square.BLANK_MARK)
                 return checkColumn(i);
         }
+
+        return checkDiagonals();
+    }
+
+    private char checkDiagonals() {
         char center = getMarkAt(1, 1);
-        if (center == Square.BLANK_MARK) return Square.BLANK_MARK;
-        if ((getMarkAt(0, 0) == center && getMarkAt(2, 2) == center) ||
-                (getMarkAt(0, 2) == center && getMarkAt(2, 0) == center))
+
+        if (center == Square.BLANK_MARK)
+            return Square.BLANK_MARK;
+
+        if ((checkMarkAt(0, 0, center)&& checkMarkAt(2, 2, center)) ||
+                (checkMarkAt(0, 2, center) && checkMarkAt(2, 0, center)))
             return center;
+
         return Square.BLANK_MARK;
+    }
+
+    private boolean checkMarkAt(int i, int j, char compare) {
+        return getMarkAt(i, j) == compare;
     }
 
     private char checkRow(int rowPos){
