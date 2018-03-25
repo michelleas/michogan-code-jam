@@ -12,9 +12,20 @@ public class Square extends GraphicsGroup {
     }
 
     /**
+     * Side length of the squares, scaled to the frame
+     */
+    public static final int SIDE_LENGTH = TicTacToe.CANVAS_WIDTH * 4 / 15;
+
+    /**
      * The character representing no mark on a square
      */
     private static final char BLANK_MARK = ' ';
+
+
+    /**
+     * Background colors for the respective
+     * states of the square
+     */
     private static final Color REST = new Color(200,200,200);
     private static final Color HIGHLIGHTED = new Color(80,80,80);
     private static final Color PRESSED = new Color(160,160,160);
@@ -30,17 +41,15 @@ public class Square extends GraphicsGroup {
      *
      * @param x x position for square
      * @param y y position for square
-     * @param width width of square
-     * @param height height of square
      */
-    public Square(double x, double y, double width, double height) {
+    public Square(double x, double y) {
         super(x, y);
 
-        square = new Rectangle(x, y, width, height);
+        square = new Rectangle(x, y, SIDE_LENGTH, SIDE_LENGTH);
         label = new GraphicsText(
                 markToString(),
-                (float)(x + width/3),
-                (float)(y + height/3));
+                (float)(x + SIDE_LENGTH/3),
+                (float)(y + SIDE_LENGTH/3));
 
         square.setFilled(true);
     }
