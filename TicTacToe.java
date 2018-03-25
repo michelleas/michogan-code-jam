@@ -9,7 +9,7 @@ import java.awt.event.MouseMotionListener;
 
 public class TicTacToe extends CanvasWindow implements MouseListener, MouseMotionListener{
 
-    private static final int CANVAS_WIDTH = 800;
+    public static final int CANVAS_WIDTH = 800;
     public static final int CANVAS_HEIGHT = 900;
 
     private Rectangle button;
@@ -19,6 +19,7 @@ public class TicTacToe extends CanvasWindow implements MouseListener, MouseMotio
     private int numX, numO;
     private char mark;
     private char[] turn = {'X', 'O'};
+    private int turnCounter = 0;
 
     public TicTacToe(String title, int width, int height){
         super(title, width, height);
@@ -29,7 +30,7 @@ public class TicTacToe extends CanvasWindow implements MouseListener, MouseMotio
         game.newGame();
     }
 
-    public void newGame(){
+    private void newGame(){
         for(int i = 0; i < 9; i++) {
             if (turn[i] == 'X') {
                 mark = 'X';
@@ -41,6 +42,10 @@ public class TicTacToe extends CanvasWindow implements MouseListener, MouseMotio
             }
         }
         newGameButton();
+    }
+
+    private char changeTurn(){
+        return turn[turnCounter % turn.length];
     }
 
     public boolean checkCat(){
