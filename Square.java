@@ -2,7 +2,8 @@ import comp124graphics.GraphicsGroup;
 import comp124graphics.GraphicsText;
 import comp124graphics.Rectangle;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 
 public class Square extends GraphicsGroup {
 
