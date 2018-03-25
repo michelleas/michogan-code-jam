@@ -19,7 +19,7 @@ public class Square extends GraphicsGroup {
     /**
      * The character representing no mark on a square
      */
-    private static final char BLANK_MARK = ' ';
+    public static final char BLANK_MARK = ' ';
 
 
     /**
