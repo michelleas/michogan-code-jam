@@ -31,10 +31,14 @@ public class TicTacToe extends CanvasWindow implements MouseListener, MouseMotio
     }
 
     private void newGame(){
+        int y = MARGIN;
         for(int i = 0; i < 3; i++){
+            int x = MARGIN;
             for(int j = 0; j < 3; j++){
-                squares[i][j] = new Square(Square.SIDE_LENGTH, Square.SIDE_LENGTH);
+                add(squares[i][j] = new Square(x, y));
+                x += Square.SIDE_LENGTH + MARGIN;
             }
+            y += Square.SIDE_LENGTH + MARGIN;
         }
         mark = changeTurn();
         newGameButton();
@@ -45,17 +49,40 @@ public class TicTacToe extends CanvasWindow implements MouseListener, MouseMotio
     }
 
     private boolean checkCat(){
-        return numX == numO;
+        return turnCounter == 9 && checkWin() == Square.BLANK_MARK;
     }
 
     private char checkWin(){
-        if(!checkCat()) {
-            if (numX > numO)
-                return 'X';
-            else
-                return 'O';
+        for (int i = 0; i < 3; i++){
+            if (checkRow(i) != Square.BLANK_MARK)
+                return checkRow(i);
+            if (checkColumn(i) != Square.BLANK_MARK)
+                return checkColumn(i);
         }
-        return 'C';
+        char center = getMarkAt(1, 1);
+        if (center == Square.BLANK_MARK) return Square.BLANK_MARK;
+        if ((getMarkAt(0, 0) == center && getMarkAt(2, 2) == center) ||
+                (getMarkAt(0, 2) == center && getMarkAt(2, 0) == center))
+            return center;
+        return Square.BLANK_MARK;
+    }
+
+    private char checkRow(int rowPos){
+        if (getMarkAt(rowPos, 0) == getMarkAt(rowPos, 1) &&
+                getMarkAt(rowPos, 0) == getMarkAt(rowPos, 2))
+            return getMarkAt(rowPos, 0);
+        return Square.BLANK_MARK;
+    }
+
+    private char checkColumn(int colPos){
+        if (getMarkAt(0, colPos) == getMarkAt(1, colPos) &&
+                getMarkAt(0, colPos) == getMarkAt(2, colPos))
+            return getMarkAt(0, colPos);
+        return Square.BLANK_MARK;
+    }
+
+    private char getMarkAt(int rowPos, int colPos){
+        return squares[rowPos][colPos].getMark();
     }
 
     private void newGameButton(){
