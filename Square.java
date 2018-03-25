@@ -2,31 +2,76 @@ import comp124graphics.GraphicsGroup;
 import comp124graphics.GraphicsText;
 import comp124graphics.Rectangle;
 
+import java.awt.*;
+
 public class Square extends GraphicsGroup {
+
+    private enum State {
+        rest, highlighted, pressed
+    }
 
     /**
      * The character representing no mark on a square
      */
-    public static final char BLANK_MARK = ' ';
+    private static final char BLANK_MARK = ' ';
+    private static final Color REST = new Color(200,200,200);
+    private static final Color HIGHLIGHTED = new Color(80,80,80);
+    private static final Color PRESSED = new Color(160,160,160);
 
     private final Rectangle square;
     private final GraphicsText label;
+    private State state = State.rest;
     private char mark = BLANK_MARK;
 
     /**
      * Makes a new square object at x, y with width and height
      * and a blank mark
      *
-     * @param x
-     * @param y
-     * @param width
-     * @param height
+     * @param x x position for square
+     * @param y y position for square
+     * @param width width of square
+     * @param height height of square
      */
     public Square(double x, double y, double width, double height) {
         super(x, y);
 
         square = new Rectangle(x, y, width, height);
-        label = new GraphicsText("" + mark, (float)x, (float)y);
+        label = new GraphicsText(
+                markToString(),
+                (float)(x + width/3),
+                (float)(y + height/3));
+
+        square.setFilled(true);
+    }
+
+    @Override
+    public void draw(Graphics2D gc) {
+        super.draw(gc);
+
+        removeAll();
+
+        square.setFillColor(currentColor());
+
+        add(square);
+        add(label);
+    }
+
+    /**
+     * Proper background color for the square with
+     * regards to its state
+     *
+     * @return the color for the state of the square
+     */
+    private Color currentColor() {
+        switch (state) {
+            case rest:
+                return REST;
+            case highlighted:
+                return HIGHLIGHTED;
+            case pressed:
+                return PRESSED;
+        }
+        throw new IllegalStateException("state field not properly set " + state);
     }
 
     /**
@@ -35,7 +80,9 @@ public class Square extends GraphicsGroup {
      * @param doHighlight true if highlighted
      */
     public void highlight(boolean doHighlight) {
-        //TODO
+        if (!canMark()) return;
+
+        state = doHighlight? State.highlighted : State.rest;
     }
 
     /**
@@ -45,20 +92,27 @@ public class Square extends GraphicsGroup {
      * @param mark char representing the mark
      */
     public void makeMark(char mark) {
-        //TODO
+        this.mark = mark;
+        label.setText(markToString());
+        state = State.pressed;
+    }
+
+    private String markToString() {
+        return "" + mark;
     }
 
     /**
      * Returns true if this square can be played on
      *
-     * @return true if the squre can be played on
+     * @return true if the square can be played on
      */
     public boolean canMark() {
         return getMark() == BLANK_MARK;
     }
 
     /**
-     * Returns the mark on this square
+     * Returns the character representing the
+     * mark on this square
      *
      * @return mark on the square
      */
@@ -71,6 +125,5 @@ public class Square extends GraphicsGroup {
      */
     public void resetSquare() {
         makeMark(BLANK_MARK);
-        //TODO
     }
 }
